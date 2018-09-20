@@ -1,6 +1,6 @@
 import m from 'mithril';
 
-import robot from './robot'
+import robot from './robot';
 
 // This class was written while crossing Big Bug Creek
 
@@ -8,7 +8,7 @@ class Router {
     oncreate(vnode) {
         m.route(vnode.dom, '/robot', {
             '/robot':robot,
-        })
+        });
     }
     view(vnode) {
         return m('');
@@ -24,4 +24,4 @@ m.mount(document.body, {
             m(Router)
         ];
     }
-})
+});

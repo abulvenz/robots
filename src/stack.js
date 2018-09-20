@@ -1,7 +1,7 @@
 import jp from 'fast-json-patch';
 
-const stack = (obj) => {
-    let clone = (o) => JSON.parse(JSON.stringify(o));
+const stack = obj => {
+    let clone = o => JSON.parse(JSON.stringify(o));
     let state = clone(obj);
     let history = [];
     const dirty = () => history.length > 0;

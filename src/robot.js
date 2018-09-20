@@ -144,6 +144,15 @@ linear(50,-100,0)
 linear(111,0,0)`.split('\n')
 }];
 
+let interpreter = program => {
+    let motionCounter = 0;
+    let programCounter = 0;
+    return {
+
+    };
+};
+
+ 
 let program = programs[0];
 
 console.log(positions.map(p => [{
@@ -365,6 +374,5 @@ export default {
                 program.main = v.split('\n');
             })
         }), pre(JSON.stringify(program, null, 2)),
-
     ]
 };
