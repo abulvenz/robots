@@ -1,6 +1,8 @@
 # Emacs tmp
 *~
 
+bin/app.js
+
 # Logs
 logs
 *.log

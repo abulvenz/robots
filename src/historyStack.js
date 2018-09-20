@@ -1,6 +1,6 @@
 import jp from 'fast-json-patch';
 
-const stack = obj => {
+const historyStack = obj => {
     let clone = o => JSON.parse(JSON.stringify(o));
     let state = clone(obj);
     let history = [];
@@ -25,7 +25,7 @@ const testStack = () => {
     let test = {
         a: 0
     };
-    let history = stack(test);
+    let history = historyStack(test);
     console.log('test_0 dirty false', history.dirty());
     test.b = 1;
     history.push(test);
@@ -39,4 +39,4 @@ const testStack = () => {
     console.log('test_5 dirty false', history.dirty());
 };
 
-export default stack;
+export default historyStack;
