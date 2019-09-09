@@ -1,12 +1,8 @@
 import m from 'mithril';
 import tagl from 'tagl';
 import fn from './fn';
-
 import stack from './stack';
 
-import {
-    randomBytes
-} from 'crypto';
 
 const camelToHyphen = s =>
     s.replace(/([A-Z])/g, g => `-${g[0].toLowerCase()}`);
@@ -35,6 +31,7 @@ const {
     body,
     pre,
     text,
+    line,
     textarea
 } = tagl_hyperscript;
 
@@ -51,7 +48,8 @@ const Motion = {
     LINEAR: 1,
     AXIS: 0,
     JOINT: 2,
-    CIRCLE: 3
+    CIRCLE: 3,
+    BELT: 4
 };
 
 let positions = [{
@@ -86,10 +84,15 @@ const saturate = (arr, vmin, vmax) =>
 
 const inRange = (arr, eps) => arr.map(Math.abs).every(l => l < eps);
 
-
+let beltX = 0;
 
 let trajectoryInterpolation = (target) => {
-    if (target.type === Motion.AXIS) {
+    if (target.type === Motion.BELT) {
+        let d = target.beltX - beltX;
+        let v = saturate([d], -5, 5);
+        beltX = beltX + v[0];
+        return inRange([target.beltX - beltX], 0.05);
+    } else if (target.type === Motion.AXIS) {
         let d = diff(target.j, jointAngle);
         let v = saturate(d, -5, 5);
         jointAngle = add(jointAngle, v);
@@ -136,23 +139,49 @@ let programs = [{
     main: baseprogram()
 }, {
     name: 'linear motion',
-    main: `linear(100,0,-30)
+    main: `conveyor(100)
+linear(100,0,-30)
 linear(100,-40,30)
 linear(100,0,0)
 linear(50,0,0)
 linear(50,-100,0)
 linear(111,0,0)`.split('\n')
+}, {
+    name: 'ingenieur',
+    main: `conveyor(0)
+linear(100,-60,30)
+conveyor(-200)
+linear(85,-30,90)
+linear(85,-60,90)
+conveyor(-220)
+linear(85,-30,90)
+linear(85,-60,90)
+conveyor(-240)
+linear(85,-30,90)
+linear(85,-60,90)
+conveyor(-260)
+linear(85,-30,90)
+linear(85,-60,90)
+conveyor(-280)
+linear(85,-30,90)
+linear(85,-60,90)`.split('\n')
 }];
 
 let interpreter = program => {
     let motionCounter = 0;
     let programCounter = 0;
+    let programStack = stack();
     return {
 
     };
 };
 
- 
+
+
+console.log(fn.withoutIdx(fn.str2arr('12345'), 2));
+console.log(fn.shuffled(fn.str2arr('12345')));
+
+
 let program = programs[0];
 
 console.log(positions.map(p => [{
@@ -234,6 +263,14 @@ const matchFunction = (str) => {
                 p: coords
             };
         }
+        if ('conveyor' === matches[1].toLowerCase()) {
+            let coords = Number(matches[2]);
+            return {
+                name: str,
+                type: Motion.BELT,
+                beltX: coords
+            };
+        }
     }
 };
 
@@ -276,6 +313,8 @@ class Joint {
         );
     }
 }
+
+
 
 export default {
     view: (vnode) => [
@@ -343,7 +382,32 @@ export default {
                     points: '10 0 0 0 0 10',
                     stroke: 'black',
                     fill: 'none'
-                }))))
+                })))),
+                g({
+                    transform: `translate(0,0)`
+                }, [
+                    line({
+                        x1: 105,
+                        y1: 5,
+                        x2: 400,
+                        y2: 5,
+                        //  stroke:'green',
+                        stroke: "#5184AF",
+                        'stroke-width': "10",
+                        'stroke-linecap': "round",
+                        'stroke-dasharray': "1, 10"
+                    }), g({
+                            transform: `translate(${360+beltX},0)`
+                        },
+                        fn.str2arr('Test 2').reverse().map((c, idx) =>
+                            text({
+                                x: 0 + idx * 20,
+                                y: 0,
+                                key: idx,
+                                style: 'font-size:18pt;',
+                                stroke: "#518fAF",
+                            }, c)))
+                ])
             )
         ),
         m('input[type=range][min=-170][max=-10]', {

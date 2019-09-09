@@ -19,8 +19,11 @@
   },
   "homepage": "https://github.com/abulvenz/robots#readme",
   "dependencies": {
+    "antlr4": "^4.7.1",
     "babel-polyfill": "^6.26.0",
     "bootstrap": "^3.3.7",
+    "esprima": "^4.0.1",
+    "jsep": "^0.3.4",
     "jshint": "^2.9.6",
     "mithril": "^1.1.6",
     "tagl": "^1.1.1",

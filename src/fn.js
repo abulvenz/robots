@@ -13,7 +13,7 @@ var plus = (a, b) => a + b;
 
 var range = (startInclusive, endExclusive, step = 1) => {
     let result = [];
-    for (let i = startInclusive; i < endExclusive; i+= step) {
+    for (let i = startInclusive; i < endExclusive; i += step) {
         result.push(i);
     }
     return result;
@@ -30,24 +30,28 @@ var interval = (startInclusive, endInclusive) => {
 var zipWith = (fn, ...arrs) => {
     arguments.l
     return range(0, Math.min(...arrs.map(arr => arr.length))).
-        map(i => fn(...(arrs.map(arr => arr[i]))));
+    map(i => fn(...(arrs.map(arr => arr[i]))));
 };
 
 var tail = arr => {
     return arr[arr.length - 1];
-}
+};
 
 var head = arr => {
     return arr[0];
-}
+};
 
 var isEmpty = arr => {
     return arr.length === 0;
-}
+};
+
+var withoutIdx = (arr = [], idx = 0) => {
+    return arr.filter((e, i) => i !== idx);
+};
 
 var withoutLast = (arr = []) => {
-    return arr.length > 1 ? arr.slice(0, arr.length - 1) : [];
-}
+    return withoutIdx(arr, arr.length - 1);
+};
 
 var flatten = (arr, depth = 100) => {
     var merged = [];
@@ -80,12 +84,28 @@ var pred = n => n - 1;
 
 var directions = [id, succ, pred];
 
+const str2arr = str => {
+    return str.split('');
+};
+
+const using = (val, fn) => fn(val);
+
+
+const shuffled = (inputArray = [], resultArray = []) => isEmpty(inputArray) ?
+    resultArray :
+    using(Math.trunc(Math.random() * inputArray.length),
+        idx => shuffled(withoutIdx(inputArray, idx), [...resultArray, inputArray[idx]]));
+
+const compose = (...fns) =>
+    fns.reduce((f, g) => (...args) => f(g(...args)));
+    
 export default {
     flatten,
     foldLeft,
     foldRight,
     and,
     withoutLast,
+    withoutIdx,
     head,
     tail,
     nFrom,
@@ -98,5 +118,9 @@ export default {
     pred,
     zipWith,
     not,
-    isEmpty
+    str2arr,
+    isEmpty,
+    using,
+    shuffled,
+    compose
 };
