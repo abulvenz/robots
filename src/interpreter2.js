@@ -3,22 +3,13 @@
 import m from 'mithril';
 
 
-import tagl from 'tagl';
+import tagl from 'tagl-mithril';
 import fn from './fn';
 
 import * as esprima from 'esprima';
 
 console.log(esprima)
 
-const camelToHyphen = s =>
-    s.replace(/([A-Z])/g, g => `-${g[0].toLowerCase()}`);
-
-const tagl_hyperscript = tagl(function (tagName, classes, ...args) {
-    let cls = classes
-        .map(camelToHyphen)
-        .join('.');
-    return m([tagName, cls].join('.').replace('.$', '#'), ...args);
-});
 
 const {
     div,
@@ -36,7 +27,7 @@ const {
     pre,
     text,
     textarea
-} = tagl_hyperscript;
+} = tagl(m);
 
 class Editor {
     view(vnode) {
@@ -56,11 +47,11 @@ let program = {
 
 const tokenizeProgram = (program) => {
     try {
-        program.tokens = 
-        esprima.parseScript(program.lines.join('\n'));
-    }catch(e){
+        program.tokens =
+            esprima.parseScript(program.lines.join('\n'));
+    } catch (e) {
         console.log(e)
-        program.tokens=e;
+        program.tokens = e;
     }
 
 };

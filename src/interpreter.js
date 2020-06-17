@@ -1,16 +1,6 @@
 import m from 'mithril';
-import tagl from 'tagl';
+import tagl from 'tagl-mithril';
 import fn from './fn';
-
-const camelToHyphen = s =>
-    s.replace(/([A-Z])/g, g => `-${g[0].toLowerCase()}`);
-
-const tagl_hyperscript = tagl(function (tagName, classes, ...args) {
-    let cls = classes
-        .map(camelToHyphen)
-        .join('.');
-    return m([tagName, cls].join('.').replace('.$', '#'), ...args);
-});
 
 const {
     div,
@@ -28,7 +18,7 @@ const {
     pre,
     text,
     textarea
-} = tagl_hyperscript;
+} = tagl(m);
 
 let program = {
     main: `a3:=p(0,0,0)
