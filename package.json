@@ -21,7 +21,7 @@
   "dependencies": {
     "antlr4": "^4.7.1",
     "babel-polyfill": "^6.26.0",
-    "bootstrap": "^3.3.7",
+    "bootstrap": "^3.4.1",
     "esprima": "^4.0.1",
     "jsep": "^0.3.4",
     "jshint": "^2.9.6",
