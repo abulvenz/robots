@@ -39,14 +39,25 @@
     /* Non-prefixed version, currently
                           supported by Chrome and Opera */
     border-radius: 5px;
-    background-color: #4CAF50;
-    border: rgb(20, 95, 16) solid 4px;
+    border: rgb(12, 99, 8) solid 4px;
+    background-color: rgb(3, 131, 7);
     margin: 3px;
+}
+
+.blue {
+    color: white;
+    background-color: #28269b;
+    border: rgb(28, 10, 131) solid 4px;
 }
 
 .btn:hover {
     border: rgb(14, 160, 6) solid 4px;
     background-color: rgb(0, 237, 8);
+}
+
+.blue:hover {
+    background-color: #27267e;
+    border: rgb(18, 8, 73) solid 4px;
 }
 
 .active {

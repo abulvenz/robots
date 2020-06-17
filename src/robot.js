@@ -11,6 +11,7 @@ const {
     polygon,
     polyline,
     rect,
+    a,
     circle,
     g,
     foreignObject,
@@ -310,7 +311,7 @@ export default {
             }, 'clear')
         ] :
         programIndex >= 0 ? div('current target: ', program.main[programIndex]) :
-        div('no program running', button.btn({
+        div('no program running', button.btn.blue({
             onclick: () => {
                 programIndex = 0;
             }
@@ -424,5 +425,6 @@ export default {
                 program.main = v.split('\n');
             })
         }), pre(JSON.stringify(program, null, 2)),
+        a({ href: 'https://github.com/abulvenz/robots' }, 'The source code is here on github.')
     ]
 };
